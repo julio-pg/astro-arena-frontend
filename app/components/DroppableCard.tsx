@@ -14,7 +14,7 @@ export default function DroppableCard() {
     <div
       ref={setNodeRef}
       style={style}
-      className="border-2 border-blue-400/30 rounded-lg h-40 bg-blue-500/10 backdrop-blur-sm shadow-lg transition-all hover:border-blue-400/50 w-32"
+      className="border-2 border-blue-400/30 rounded-lg h-32 bg-blue-500/10 backdrop-blur-sm shadow-lg transition-all hover:border-blue-400/50 w-32 "
     >
       {activeMonster && (
         <img src={activeMonster.image} alt={activeMonster.name} />

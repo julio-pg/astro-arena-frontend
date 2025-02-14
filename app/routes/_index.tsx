@@ -51,7 +51,7 @@ export async function loader() {
       ],
     },
     {
-      id: 1,
+      id: 167,
       name: "Cinderwing Dragon",
       image: "/cards/dragon.jpg",
       type: "fire",
@@ -64,7 +64,7 @@ export async function loader() {
       ],
     },
     {
-      id: 1,
+      id: 123,
       name: "Cinderwing Dragon",
       image: "/cards/dragon.jpg",
       type: "fire",
