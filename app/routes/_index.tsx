@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useEffect } from "react";
-import AttackButton from "~/components/AttackButton";
+import CardModal from "~/components/CardModal";
 import CardsContainer from "~/components/CardsContainer";
 import Coin from "~/components/Coin";
 import useMonsterStore from "~/stores/useMonsterStore";
@@ -85,14 +85,14 @@ export async function loader() {
 
 function Index() {
   const monsters = useLoaderData<typeof loader>();
-  const { setSourceMonsters } = useMonsterStore();
+  const { setSourceMonsters, attackModal } = useMonsterStore();
   useEffect(() => {
     setSourceMonsters(monsters);
   }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 p-4 relative">
-      {/* <AttackButton /> */}
+      {attackModal && <CardModal />}
       {/* coin */}
       <Coin />
       {/* Game Board Container */}

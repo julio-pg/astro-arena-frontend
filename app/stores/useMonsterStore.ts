@@ -12,6 +12,8 @@ type MonsterStore = {
   setEliminatedMonsters: (monsters: Monster[]) => void;
   isDamaged: boolean;
   setIsDamaged: (isDamaged: boolean) => void;
+  attackModal: boolean;
+  setAttackModal: (attackModal: boolean) => void;
 };
 
 const useMonsterStore = create<MonsterStore>((set) => ({
@@ -23,6 +25,8 @@ const useMonsterStore = create<MonsterStore>((set) => ({
   setEliminatedMonsters: (monsters) => set({ eliminatedMonsters: monsters }),
   isDamaged: false,
   setIsDamaged: (isDamaged) => set({ isDamaged }),
+  attackModal: false,
+  setAttackModal: (attackModal) => set({ attackModal }),
 }));
 
 export default useMonsterStore;
