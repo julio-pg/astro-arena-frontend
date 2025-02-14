@@ -1,6 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { AlarmSmokeIcon as PokemonCard } from "lucide-react";
 import CardsContainer from "~/components/CardsContainer";
 import Coin from "~/components/Coin";
 
@@ -83,21 +82,16 @@ export async function loader() {
 
 function Index() {
   const monsters = useLoaderData<typeof loader>();
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 p-4 relative">
       {/* coin */}
-
       <Coin />
       {/* Game Board Container */}
       <div className="max-w-7xl mx-auto h-screen relative">
         {/* Opponent's Side */}
         <CardsContainer Monsters={monsters} isOpponent={true} />
         {/* Center Field */}
-        <div className="grid grid-cols-1 gap-3 place-items-center mb-4 absolute left-1/2 transform -translate-x-1/2 -translate-y-[60%]">
-          <div className="border-2 border-blue-400/30 rounded-lg h-40 bg-blue-500/10 backdrop-blur-sm shadow-lg transition-all hover:border-blue-400/50 w-32" />
-
-          <div className="border-2 border-blue-400/30 rounded-lg h-40 bg-blue-500/10 backdrop-blur-sm shadow-lg transition-all hover:border-blue-400/50 w-32" />
-        </div>
 
         {/* Player's Side */}
         <CardsContainer Monsters={monsters} isOpponent={false} />
