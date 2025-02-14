@@ -30,3 +30,24 @@ body {
 .backface-hidden {
   backface-visibility: hidden;
 }
+
+/* scratch animation */
+@keyframes scratch {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.1) rotate(-5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.scratch-effect {
+  animation: scratch 0.5s ease-in-out;
+  @apply border-red-500;
+}

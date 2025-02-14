@@ -2,18 +2,20 @@ import { useDraggable } from "@dnd-kit/core";
 
 type Props = {
   monster: Monster;
+  isOpponent: boolean;
 };
 
-function DraggableCard({ monster }: Props) {
+function DraggableCard({ monster, isOpponent }: Props) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: monster.id, // Unique ID for each card
   });
 
-  const style = transform
-    ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-      }
-    : undefined;
+  const style =
+    transform && !isOpponent
+      ? {
+          transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        }
+      : undefined;
 
   return (
     <img

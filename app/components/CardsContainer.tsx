@@ -4,19 +4,22 @@ import DroppableCard from "./DroppableCard";
 import useMonsterStore from "~/stores/useMonsterStore";
 
 type Props = {
-  Monsters: Monster[];
+  // Monsters: Monster[];
   isOpponent: boolean;
 };
-export default function CardsContainer({ Monsters, isOpponent }: Props) {
-  const { setActiveMonster } = useMonsterStore();
+export default function CardsContainer({ isOpponent }: Props) {
+  const { setActiveMonster, setSourceMonsters, sourceMonsters } =
+    useMonsterStore();
   const handleDragEnd = (event: DragEndEvent) => {
     const { active } = event;
     // Find the dragged monster
-    const draggedMonster = Monsters.find((m) => m.id === active.id);
+    const draggedMonster = sourceMonsters.find((m) => m.id === active.id);
+    const availableMonsters = sourceMonsters.filter((m) => m.id !== active.id);
 
     if (draggedMonster) {
       // Add to droppedMonsters and remove from sourceMonsters
       setActiveMonster(draggedMonster);
+      setSourceMonsters(availableMonsters);
     }
   };
   return (
@@ -36,12 +39,12 @@ export default function CardsContainer({ Monsters, isOpponent }: Props) {
               isOpponent ? "h-60" : "h-80"
             } bg-blue-500/10 backdrop-blur-sm shadow-lg transition-all hover:border-blue-400/50`}
           >
-            {Array(5)
+            {Array(6)
               .fill(1)
               .map((_, index) => (
                 <img
                   key={index}
-                  className={`h-auto object-contain ${index != 0 && "-mt-20"}`}
+                  className={`h-full object-contain ${index != 0 && "-mt-20"}`}
                   src="/cards/back-card.png"
                   alt="back-card"
                 />
@@ -54,8 +57,12 @@ export default function CardsContainer({ Monsters, isOpponent }: Props) {
               isOpponent ? "h-20" : "h-44"
             }  bg-blue-500/10 backdrop-blur-sm shadow-lg transition-all hover:border-blue-400/50 flex justify-center gap-3`}
           >
-            {Monsters.map((monster) => (
-              <DraggableCard key={monster.id} monster={monster} />
+            {sourceMonsters.map((monster) => (
+              <DraggableCard
+                key={monster.id}
+                monster={monster}
+                isOpponent={isOpponent}
+              />
             ))}
           </div>
         </div>
@@ -77,7 +84,7 @@ export default function CardsContainer({ Monsters, isOpponent }: Props) {
             isOpponent ? "bottom-0" : "top-0 "
           } left-1/2 -translate-x-1/2`}
         >
-          <DroppableCard />
+          <DroppableCard isOpponent={isOpponent} />
         </div>
       </div>
     </DndContext>

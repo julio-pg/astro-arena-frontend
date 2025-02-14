@@ -1,7 +1,10 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { useEffect } from "react";
+import AttackButton from "~/components/AttackButton";
 import CardsContainer from "~/components/CardsContainer";
 import Coin from "~/components/Coin";
+import useMonsterStore from "~/stores/useMonsterStore";
 
 export const meta: MetaFunction = () => {
   return [
@@ -82,19 +85,24 @@ export async function loader() {
 
 function Index() {
   const monsters = useLoaderData<typeof loader>();
+  const { setSourceMonsters } = useMonsterStore();
+  useEffect(() => {
+    setSourceMonsters(monsters);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 p-4 relative">
+      {/* <AttackButton /> */}
       {/* coin */}
       <Coin />
       {/* Game Board Container */}
       <div className="max-w-7xl mx-auto h-screen relative">
         {/* Opponent's Side */}
-        <CardsContainer Monsters={monsters} isOpponent={true} />
+        <CardsContainer isOpponent={true} />
         {/* Center Field */}
 
         {/* Player's Side */}
-        <CardsContainer Monsters={monsters} isOpponent={false} />
+        <CardsContainer isOpponent={false} />
 
         {/* Pokémon Logo Watermark */}
         <div className="absolute inset-0 pointer-events-none">
