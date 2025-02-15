@@ -35,27 +35,20 @@ export default function CardsContainer({ isOpponent }: Props) {
       >
         <div className="col-span-1 flex">
           <div
-            className={`border-2 border-blue-400/30 rounded-lg flex flex-col ${
-              isOpponent ? "h-60" : "h-80"
-            } bg-blue-500/10 backdrop-blur-sm shadow-lg transition-all hover:border-blue-400/50`}
+            className={`border-2 border-blue-400/30 rounded-lg h-44
+             bg-blue-500/10 backdrop-blur-sm shadow-lg transition-all hover:border-blue-400/50 flex items-center justify-center`}
           >
-            {Array(6)
-              .fill(1)
-              .map((_, index) => (
-                <img
-                  key={index}
-                  className={`h-full object-contain ${index != 0 && "-mt-20"}`}
-                  src="/cards/back-card.png"
-                  alt="back-card"
-                />
-              ))}
+            <img
+              className="h-full object-cover"
+              src="/cards/back-card.png"
+              alt="back-card"
+            />
           </div>
         </div>
         <div className="col-span-8">
           <div
-            className={`relative z-30 border-2 border-blue-400/30 rounded-lg ${
-              isOpponent ? "h-20" : "h-44"
-            }  bg-blue-500/10 backdrop-blur-sm shadow-lg transition-all hover:border-blue-400/50 flex justify-center gap-3`}
+            className={`relative z-30 border-2 border-blue-400/30 rounded-lg 
+              h-32 bg-blue-500/10 backdrop-blur-sm shadow-lg transition-all hover:border-blue-400/50 flex justify-center gap-3`}
           >
             {sourceMonsters.map((monster) => (
               <DraggableCard
@@ -68,9 +61,7 @@ export default function CardsContainer({ isOpponent }: Props) {
         </div>
         <div className="col-span-1">
           <div
-            className={`border-2 border-blue-400/30 rounded-lg ${
-              isOpponent ? "h-20" : "h-44"
-            } bg-blue-500/10 backdrop-blur-sm shadow-lg transition-all hover:border-blue-400/50 flex items-center justify-center`}
+            className={`border-2 border-blue-400/30 rounded-lg h-44 bg-blue-500/10 backdrop-blur-sm shadow-lg transition-all hover:border-blue-400/50 flex items-center justify-center`}
           >
             <img
               className="h-full object-cover"

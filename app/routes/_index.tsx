@@ -19,6 +19,7 @@ export async function loader() {
       name: "Cinderwing Dragon",
       image: "/cards/dragon.jpg",
       type: "fire",
+      healthPoints: 30,
       abilities: [
         {
           name: "Scratch",
@@ -32,6 +33,7 @@ export async function loader() {
       name: "Cyber-Gator",
       image: "/cards/alligator.jpg",
       type: "water",
+      healthPoints: 30,
       abilities: [
         {
           name: "Scratch",
@@ -45,6 +47,7 @@ export async function loader() {
       name: "Bramble Bear",
       image: "/cards/bear.jpg",
       type: "grass",
+      healthPoints: 30,
       abilities: [
         {
           name: "Scratch",
@@ -58,6 +61,7 @@ export async function loader() {
       name: "Cinderwing Dragon",
       image: "/cards/dragon.jpg",
       type: "fire",
+      healthPoints: 30,
       abilities: [
         {
           name: "Scratch",
@@ -71,6 +75,7 @@ export async function loader() {
       name: "Cinderwing Dragon",
       image: "/cards/dragon.jpg",
       type: "fire",
+      healthPoints: 30,
       abilities: [
         {
           name: "Scratch",
@@ -91,24 +96,22 @@ function Index() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 p-4 relative">
+    <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 p-4 relative grid grid-rows-2">
       {attackModal && <CardModal />}
       {/* coin */}
       <Coin />
       {/* Game Board Container */}
-      <div className="max-w-7xl mx-auto h-screen relative">
-        {/* Opponent's Side */}
-        <CardsContainer isOpponent={true} />
-        {/* Center Field */}
+      {/* Opponent's Side */}
+      <CardsContainer isOpponent={true} />
+      {/* Center Field */}
 
-        {/* Player's Side */}
-        <CardsContainer isOpponent={false} />
+      {/* Player's Side */}
+      <CardsContainer isOpponent={false} />
 
-        {/* Pokémon Logo Watermark */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="w-full h-full flex items-center justify-center opacity-10">
-            <div className="w-96 h-96 border-[16px] rounded-full border-blue-400/30 transform -rotate-45" />
-          </div>
+      {/* Pokémon Logo Watermark */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="w-full h-full flex items-center justify-center opacity-10">
+          <div className="w-96 h-96 border-[16px] rounded-full border-blue-400/30 transform -rotate-45" />
         </div>
       </div>
     </div>

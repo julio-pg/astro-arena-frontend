@@ -3,6 +3,7 @@ interface Monster {
   name: string; // Name of the monster (e.g., "Nebula Wisp")
   image: string; // URL or IPFS link to the monster's image
   type: string; // Type of the monster (e.g., "Energy", "Mechanical")
+  healthPoints: number;
   abilities: Ability[]; // List of abilities the monster has
 }
 

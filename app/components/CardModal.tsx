@@ -1,10 +1,11 @@
 import useMonsterStore from "~/stores/useMonsterStore";
 
 export default function CardModal() {
-  const { activeMonster, setIsDamaged } = useMonsterStore();
+  const { activeMonster, setIsDamaged, setAttackModal } = useMonsterStore();
   const handleDamage = () => {
     setIsDamaged(true);
     setTimeout(() => setIsDamaged(false), 500); // Reset after animation
+    setAttackModal(false);
   };
   return (
     <dialog className="scene z-50 bg-transparent mr-44 ">
