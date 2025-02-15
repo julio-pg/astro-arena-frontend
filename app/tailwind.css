@@ -48,7 +48,7 @@ body {
 }
 
 .scratch-effect {
-  animation: scratch 0.5s ease-in-out;
+  animation: scratch 0.5s infinite;
   @apply border-red-500;
 }
 
@@ -56,10 +56,10 @@ body {
 .scene {
   width: 300px; /* Adjust as needed */
   height: 400px; /* Adjust as needed */
-  perspective: 800px; /* Adjust perspective distance */
+  perspective: 700px; /* Adjust perspective distance */
   display: flex;
   justify-content: center; /* Center the card horizontally */
-  align-items: center; /* Center the card vertically */
+  align-items: end; /* Center the card vertically */
 }
 
 .card-container {

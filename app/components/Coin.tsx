@@ -23,7 +23,7 @@ const Coin = () => {
 
   return (
     <div
-      className={`w-24 h-24 rounded-full cursor-pointer transition-transform duration-800 absolute right-10 top-1/2 -translate-y-1/2 ${
+      className={`w-24 h-24 rounded-full cursor-pointer transition-transform duration-800 absolute right-10 top-1/2 -translate-y-1/2  ${
         isFlipping ? "animate-flip" : ""
       }`}
       onClick={handleFlip}

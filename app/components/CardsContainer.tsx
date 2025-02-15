@@ -33,7 +33,7 @@ export default function CardsContainer({ isOpponent }: Props) {
           isOpponent ? "items-start" : "items-end"
         } `}
       >
-        <div className="col-span-1 flex">
+        <div className="col-span-1 relative">
           <div
             className={`border-2 border-blue-400/30 rounded-lg h-44
              bg-blue-500/10 backdrop-blur-sm shadow-lg transition-all hover:border-blue-400/50 flex items-center justify-center`}
@@ -43,6 +43,7 @@ export default function CardsContainer({ isOpponent }: Props) {
               src="/cards/back-card.png"
               alt="back-card"
             />
+            <p className="absolute text-6xl font-bold text-black">X6</p>
           </div>
         </div>
         <div className="col-span-8">

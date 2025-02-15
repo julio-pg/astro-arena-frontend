@@ -1,6 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import CardModal from "~/components/CardModal";
 import CardsContainer from "~/components/CardsContainer";
 import Coin from "~/components/Coin";
@@ -90,17 +90,22 @@ export async function loader() {
 
 function Index() {
   const monsters = useLoaderData<typeof loader>();
-  const { setSourceMonsters, attackModal } = useMonsterStore();
+  const { setSourceMonsters, attackModal, setSoundRef } = useMonsterStore();
+  const audioRef = useRef<HTMLAudioElement>(null);
+
   useEffect(() => {
     setSourceMonsters(monsters);
+    setSoundRef(audioRef);
   }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 p-4 relative grid grid-rows-2">
+      <audio ref={audioRef} src="/sounds/FireAttackEffect.mp3">
+        <track kind="captions" srcLang="en" label="english_captions" />
+      </audio>
       {attackModal && <CardModal />}
       {/* coin */}
       <Coin />
-      {/* Game Board Container */}
       {/* Opponent's Side */}
       <CardsContainer isOpponent={true} />
       {/* Center Field */}

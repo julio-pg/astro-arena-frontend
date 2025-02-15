@@ -1,3 +1,4 @@
+import React from "react";
 import { create } from "zustand";
 
 type MonsterStore = {
@@ -14,6 +15,8 @@ type MonsterStore = {
   setIsDamaged: (isDamaged: boolean) => void;
   attackModal: boolean;
   setAttackModal: (attackModal: boolean) => void;
+  soundRef: React.RefObject<HTMLAudioElement>;
+  setSoundRef: (soundRef: React.RefObject<HTMLAudioElement>) => void;
 };
 
 const useMonsterStore = create<MonsterStore>((set) => ({
@@ -27,6 +30,8 @@ const useMonsterStore = create<MonsterStore>((set) => ({
   setIsDamaged: (isDamaged) => set({ isDamaged }),
   attackModal: false,
   setAttackModal: (attackModal) => set({ attackModal }),
+  soundRef: React.createRef<HTMLAudioElement>(),
+  setSoundRef: (soundRef) => set({ soundRef }),
 }));
 
 export default useMonsterStore;

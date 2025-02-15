@@ -1,26 +1,19 @@
 import useMonsterStore from "~/stores/useMonsterStore";
+import AttackButton from "./AttackButton";
 
 export default function CardModal() {
-  const { activeMonster, setIsDamaged, setAttackModal } = useMonsterStore();
-  const handleDamage = () => {
-    setIsDamaged(true);
-    setTimeout(() => setIsDamaged(false), 500); // Reset after animation
-    setAttackModal(false);
-  };
+  const { activeMonster } = useMonsterStore();
+
   return (
-    <dialog className="scene z-50 bg-transparent mr-44 ">
-      {" "}
-      <div className="card-container">
-        {" "}
-        <div className="card rounded-lg shadow-lg border-2 border-black">
+    <dialog className="scene z-50 bg-transparent mr-44 mt-16">
+      <div className="card-container rounded-lg ">
+        <div className="card rounded-lg shadow-lg">
           <img
             src={activeMonster?.image}
             alt="Active-card"
             className="w-full"
           />
-          <button className="w-full bg-green-500" onClick={handleDamage}>
-            Attack
-          </button>
+          <AttackButton />
         </div>
       </div>
     </dialog>
