@@ -1,10 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { useEffect, useRef } from "react";
-import CardModal from "~/components/CardModal";
-import CardsContainer from "~/components/CardsContainer";
-import Coin from "~/components/Coin";
-import useMonsterStore from "~/stores/useMonsterStore";
+import { Link } from "@remix-run/react";
+import { useEffect } from "react";
+import { socket } from "~/services/battles";
 
 export const meta: MetaFunction = () => {
   return [
@@ -89,34 +86,27 @@ export async function loader() {
 }
 
 function Index() {
-  const monsters = useLoaderData<typeof loader>();
-  const { setSourceMonsters, attackModal, setSoundRef } = useMonsterStore();
-  const audioRef = useRef<HTMLAudioElement>(null);
-
   useEffect(() => {
-    setSourceMonsters(monsters);
-    setSoundRef(audioRef);
+    socket.connect();
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 p-4 relative grid grid-rows-2">
-      <audio ref={audioRef} src="/sounds/FireAttackEffect.mp3">
+    <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 p-4 relative  ">
+      <audio src="/sounds/FireAttackEffect.mp3">
         <track kind="captions" srcLang="en" label="english_captions" />
       </audio>
-      {attackModal && <CardModal />}
-      {/* coin */}
-      <Coin />
-      {/* Opponent's Side */}
-      <CardsContainer isOpponent={true} />
-      {/* Center Field */}
-
-      {/* Player's Side */}
-      <CardsContainer isOpponent={false} />
-
-      {/* Pokémon Logo Watermark */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="w-full h-full flex items-center justify-center opacity-10">
-          <div className="w-96 h-96 border-[16px] rounded-full border-blue-400/30 transform -rotate-45" />
+      <div className="min-h-[90vh] w-full mx-auto max-w-7xl lg:px-32 md:px-12 px-8 py-5 grid grid-rows-2 gap-6">
+        <div className="rounded-lg border border-white flex p-6">
+          <Link
+            to={"/game"}
+            className="w-full bg-gradient-to-r from-red-400 via-orange-500 to-yellow-500 animate-gradient-x hover:opacity-80 transition-opacity text-center m-auto text-6xl font-bold rounded-lg py-10"
+          >
+            Start Game
+          </Link>
+        </div>
+        {/* TODO:add the last three battles */}
+        <div className="rounded-lg border border-white flex p-6">
+          <div>battles Historial</div>
         </div>
       </div>
     </div>

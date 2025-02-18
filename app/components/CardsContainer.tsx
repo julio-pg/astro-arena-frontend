@@ -4,17 +4,16 @@ import DroppableCard from "./DroppableCard";
 import useMonsterStore from "~/stores/useMonsterStore";
 
 type Props = {
-  // Monsters: Monster[];
+  Monsters: Monster[];
   isOpponent: boolean;
 };
-export default function CardsContainer({ isOpponent }: Props) {
-  const { setActiveMonster, setSourceMonsters, sourceMonsters } =
-    useMonsterStore();
+export default function CardsContainer({ isOpponent, Monsters }: Props) {
+  const { setActiveMonster, setSourceMonsters } = useMonsterStore();
   const handleDragEnd = (event: DragEndEvent) => {
     const { active } = event;
     // Find the dragged monster
-    const draggedMonster = sourceMonsters.find((m) => m.id === active.id);
-    const availableMonsters = sourceMonsters.filter((m) => m.id !== active.id);
+    const draggedMonster = Monsters.find((m) => m.id === active.id);
+    const availableMonsters = Monsters.filter((m) => m.id !== active.id);
 
     if (draggedMonster) {
       // Add to droppedMonsters and remove from sourceMonsters
@@ -51,7 +50,7 @@ export default function CardsContainer({ isOpponent }: Props) {
             className={`relative z-30 border-2 border-blue-400/30 rounded-lg 
               h-32 bg-blue-500/10 backdrop-blur-sm shadow-lg transition-all hover:border-blue-400/50 flex justify-center gap-3`}
           >
-            {sourceMonsters.map((monster) => (
+            {Monsters.map((monster) => (
               <DraggableCard
                 key={monster.id}
                 monster={monster}

@@ -12,3 +12,17 @@ interface Ability {
   description: string; // Description of the ability
   power: number; // Power level of the ability (e.g., 50)
 }
+
+interface Player {
+  id: string;
+  name: string;
+  monsters: Monster[];
+}
+interface Battle {
+  id: string;
+  participants: Player[];
+  currentTurn: string;
+  logs: string[];
+  status: "active" | "completed";
+  winner: string;
+}
