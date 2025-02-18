@@ -26,9 +26,10 @@ const useMonsterStore = create<MonsterStore>((set) => ({
   activeMonster: null,
   setActiveMonster: (monster) => set({ activeMonster: monster }),
   opponentMonsters: [],
-  setOpponentMonsters: (monsters) => set({ sourceMonsters: monsters }),
+  setOpponentMonsters: (monsters) => set({ opponentMonsters: monsters }),
   opponentActiveMonster: null,
-  setOpponentActiveMonster: (monster) => set({ activeMonster: monster }),
+  setOpponentActiveMonster: (monster) =>
+    set({ opponentActiveMonster: monster }),
   eliminatedMonsters: [],
   setEliminatedMonsters: (monsters) => set({ eliminatedMonsters: monsters }),
   isDamaged: false,

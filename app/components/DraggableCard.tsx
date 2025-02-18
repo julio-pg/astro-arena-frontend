@@ -19,7 +19,7 @@ function DraggableCard({ monster, isOpponent }: Props) {
 
   return (
     <img
-      className="object-contain  cursor-grab active:cursor-grabbing rounded-lg hover:shadow-lg hover:border-2 hover:border-neutral-200 hover:scale-125 transition-transform "
+      className="object-contain cursor-grab active:cursor-grabbing rounded-lg hover:shadow-lg hover:border-2 hover:border-neutral-200 hover:scale-125 transition-transform "
       src={monster.image}
       alt={monster.name}
       ref={setNodeRef}

@@ -1,7 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
-import { useEffect } from "react";
-import { socket } from "~/services/battles";
 
 export const meta: MetaFunction = () => {
   return [
@@ -86,10 +84,6 @@ export async function loader() {
 }
 
 function Index() {
-  useEffect(() => {
-    socket.connect();
-  }, []);
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 p-4 relative  ">
       <audio src="/sounds/FireAttackEffect.mp3">

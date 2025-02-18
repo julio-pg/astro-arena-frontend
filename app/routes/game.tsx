@@ -102,6 +102,7 @@ export default function Game() {
 
   useEffect(() => {
     setSoundRef(audioRef);
+    socket.connect();
     socket.emit("startBattle", { playerId: defaultPlayer });
     // Listen for 'battleStarted' event
     socket.on("battleStarted", (data: Battle) => {
@@ -109,7 +110,6 @@ export default function Game() {
         ({ id }) => id == defaultPlayer
       );
       const pcPlayer = data.participants.find(({ id }) => id !== defaultPlayer);
-
       setSourceMonsters(localPlayer!.monsters);
       setOpponentMonsters(pcPlayer!.monsters);
     });
