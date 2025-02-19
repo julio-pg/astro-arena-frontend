@@ -22,6 +22,8 @@ type MonsterStore = {
   setBattleData: (battleData: Battle | null) => void;
   pointsOfDamage: number;
   setPointsOfDamage: (pointsOfDamage: number) => void;
+  OpponentPointsOfDamage: number;
+  setOpponentPointsOfDamage: (OpponentPointsOfDamage: number) => void;
 };
 
 const useMonsterStore = create<MonsterStore>((set) => ({
@@ -46,6 +48,9 @@ const useMonsterStore = create<MonsterStore>((set) => ({
   setBattleData: (battleData) => set({ battleData }),
   pointsOfDamage: 0,
   setPointsOfDamage: (pointsOfDamage) => set({ pointsOfDamage }),
+  OpponentPointsOfDamage: 0,
+  setOpponentPointsOfDamage: (OpponentPointsOfDamage) =>
+    set({ OpponentPointsOfDamage }),
 }));
 
 export default useMonsterStore;

@@ -100,8 +100,10 @@ export default function Game() {
     opponentMonsters,
     setBattleData,
     setOpponentActiveMonster,
-    pointsOfDamage,
-    setPointsOfDamage,
+    // pointsOfDamage,
+    // setPointsOfDamage,
+    OpponentPointsOfDamage,
+    setOpponentPointsOfDamage,
   } = useMonsterStore();
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -161,9 +163,7 @@ export default function Game() {
   );
   // listen the battle updates
   socket.on("battleUpdate", (data: { damage: number; to: string }) => {
-    console.log(data);
-    console.log(pointsOfDamage);
-    setPointsOfDamage(pointsOfDamage + data.damage);
+    setOpponentPointsOfDamage(OpponentPointsOfDamage + data.damage);
   });
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 p-4 relative grid grid-rows-2">

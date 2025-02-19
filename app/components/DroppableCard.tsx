@@ -16,6 +16,7 @@ export default function DroppableCard({ isOpponent }: Props) {
     setAttackModal,
     opponentActiveMonster,
     pointsOfDamage,
+    OpponentPointsOfDamage,
   } = useMonsterStore();
 
   // attack logic
@@ -30,9 +31,14 @@ export default function DroppableCard({ isOpponent }: Props) {
         isDamaged && isOpponent && "scratch-effect"
       }`}
     >
-      {pointsOfDamage > 0 && (
+      {pointsOfDamage > 0 && !isOpponent && (
         <div className="bg-yellow-500 rounded-full inline p-2 shadow-lg border border-white absolute font-bold">
           -{pointsOfDamage}
+        </div>
+      )}
+      {OpponentPointsOfDamage > 0 && isOpponent && (
+        <div className="bg-yellow-500 rounded-full inline p-2 shadow-lg border border-white absolute font-bold">
+          -{OpponentPointsOfDamage}
         </div>
       )}
 
