@@ -10,7 +10,13 @@ export default function DroppableCard({ isOpponent }: Props) {
   const style = {
     color: isOver ? "green" : undefined,
   };
-  const { activeMonster, isDamaged, setAttackModal } = useMonsterStore();
+  const {
+    activeMonster,
+    isDamaged,
+    setAttackModal,
+    opponentActiveMonster,
+    pointsOfDamage,
+  } = useMonsterStore();
 
   // attack logic
   function handleAttack() {
@@ -24,18 +30,22 @@ export default function DroppableCard({ isOpponent }: Props) {
         isDamaged && isOpponent && "scratch-effect"
       }`}
     >
-      <div className="bg-yellow-500 rounded-full inline p-2 shadow-lg border border-white absolute font-bold">
-        -10
-      </div>
+      {pointsOfDamage > 0 && (
+        <div className="bg-yellow-500 rounded-full inline p-2 shadow-lg border border-white absolute font-bold">
+          -{pointsOfDamage}
+        </div>
+      )}
 
-      {activeMonster && !isOpponent && (
+      {activeMonster && (
         <button
-          onClick={handleAttack}
+          onClick={isOpponent ? undefined : handleAttack}
           style={{ background: "none", border: "none", padding: 0 }}
         >
           <img
-            src={activeMonster.image}
-            alt={activeMonster.name}
+            src={
+              isOpponent ? opponentActiveMonster?.image : activeMonster.image
+            }
+            alt={isOpponent ? opponentActiveMonster?.name : activeMonster.name}
             style={{ cursor: "pointer" }}
           />
         </button>

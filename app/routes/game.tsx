@@ -1,8 +1,9 @@
 import type { MetaFunction } from "@remix-run/node";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import CardModal from "~/components/CardModal";
 import CardsContainer from "~/components/CardsContainer";
 import Coin from "~/components/Coin";
+import { defaultPlayer } from "~/config";
 import { socket } from "~/services/battles";
 import useMonsterStore from "~/stores/useMonsterStore";
 
@@ -87,9 +88,9 @@ export const meta: MetaFunction = () => {
 //   ];
 //   return testMonsters;
 // }
-const defaultPlayer = import.meta.env.VITE_DEFAULT_PLAYER;
 export default function Game() {
-  // const monsters = useLoaderData<typeof loader>();
+  const [playerMessage, setPlayerMessage] = useState("");
+  // const [animate, setAnimate] = useState(false);
   const {
     setSourceMonsters,
     attackModal,
@@ -97,6 +98,10 @@ export default function Game() {
     setOpponentMonsters,
     sourceMonsters,
     opponentMonsters,
+    setBattleData,
+    setOpponentActiveMonster,
+    pointsOfDamage,
+    setPointsOfDamage,
   } = useMonsterStore();
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -106,17 +111,13 @@ export default function Game() {
     socket.emit("startBattle", { playerId: defaultPlayer });
     // Listen for 'battleStarted' event
     socket.on("battleStarted", (data: Battle) => {
+      setBattleData(data);
       const localPlayer = data.participants.find(
         ({ id }) => id == defaultPlayer
       );
       const pcPlayer = data.participants.find(({ id }) => id !== defaultPlayer);
       setSourceMonsters(localPlayer!.monsters);
       setOpponentMonsters(pcPlayer!.monsters);
-    });
-
-    // Listen for 'battleUpdate' event
-    socket.on("battleUpdate", (data) => {
-      console.log("Battle update:", data);
     });
 
     // Listen for 'battleEnded' event
@@ -134,9 +135,36 @@ export default function Game() {
       socket.off("connect");
       socket.off("battleStarted");
       socket.off("battleUpdate");
+      socket.off("monsterActivated");
+      socket.off("pcActive");
     };
   }, []);
-
+  // listen when the players select or change the active monster
+  socket.on(
+    "monsterActivated",
+    ({ currentTurn, message, monsterId }: activeMonsterEvent) => {
+      // setAnimate(true); // Trigger animation
+      setTimeout(() => {
+        setPlayerMessage(message);
+        // setAnimate(false);
+      }, 2000);
+      if (currentTurn !== defaultPlayer) {
+        setOpponentActiveMonster(
+          opponentMonsters.find((m) => m.id === monsterId)!
+        );
+        const availableMonsters = opponentMonsters.filter(
+          (m) => m.id !== monsterId
+        );
+        setOpponentMonsters(availableMonsters);
+      }
+    }
+  );
+  // listen the battle updates
+  socket.on("battleUpdate", (data: { damage: number; to: string }) => {
+    console.log(data);
+    console.log(pointsOfDamage);
+    setPointsOfDamage(pointsOfDamage + data.damage);
+  });
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 p-4 relative grid grid-rows-2">
       <audio ref={audioRef} src="/sounds/FireAttackEffect.mp3">
@@ -151,6 +179,11 @@ export default function Game() {
 
       {/* Player's Side */}
       <CardsContainer isOpponent={false} Monsters={sourceMonsters} />
+      <p
+        className={`absolute left-10 top-1/2 -translate-y-1/2 text-2xl font-bold`}
+      >
+        {playerMessage}
+      </p>
 
       {/* Pokémon Logo Watermark */}
       <div className="absolute inset-0 pointer-events-none">

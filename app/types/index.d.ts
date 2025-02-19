@@ -1,5 +1,5 @@
 interface Monster {
-  id: number; // Unique identifier (matches the token ID in the smart contract)
+  id: string; // Unique identifier (matches the token ID in the smart contract)
   name: string; // Name of the monster (e.g., "Nebula Wisp")
   image: string; // URL or IPFS link to the monster's image
   type: string; // Type of the monster (e.g., "Energy", "Mechanical")
@@ -22,7 +22,12 @@ interface Battle {
   id: string;
   participants: Player[];
   currentTurn: string;
-  logs: string[];
   status: "active" | "completed";
   winner: string;
+}
+interface activeMonsterEvent {
+  currentTurn: string; // ID of the player whose turn it is
+  message: string;
+  monsterId: string;
+  nextTurn: string; // Switch back to the player's turn
 }

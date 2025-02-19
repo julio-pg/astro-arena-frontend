@@ -2,13 +2,15 @@ import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import DraggableCard from "./DraggableCard";
 import DroppableCard from "./DroppableCard";
 import useMonsterStore from "~/stores/useMonsterStore";
+import { handleActiveMonster } from "~/services/battles";
+import { defaultPlayer } from "~/config";
 
 type Props = {
   Monsters: Monster[];
   isOpponent: boolean;
 };
 export default function CardsContainer({ isOpponent, Monsters }: Props) {
-  const { setActiveMonster, setSourceMonsters } = useMonsterStore();
+  const { setActiveMonster, setSourceMonsters, battleData } = useMonsterStore();
   const handleDragEnd = (event: DragEndEvent) => {
     const { active } = event;
     // Find the dragged monster
@@ -16,6 +18,7 @@ export default function CardsContainer({ isOpponent, Monsters }: Props) {
     const availableMonsters = Monsters.filter((m) => m.id !== active.id);
 
     if (draggedMonster) {
+      handleActiveMonster(defaultPlayer, draggedMonster.id, battleData!.id);
       // Add to droppedMonsters and remove from sourceMonsters
       setActiveMonster(draggedMonster);
       setSourceMonsters(availableMonsters);

@@ -18,6 +18,10 @@ type MonsterStore = {
   setAttackModal: (attackModal: boolean) => void;
   soundRef: React.RefObject<HTMLAudioElement>;
   setSoundRef: (soundRef: React.RefObject<HTMLAudioElement>) => void;
+  battleData: Battle | null;
+  setBattleData: (battleData: Battle | null) => void;
+  pointsOfDamage: number;
+  setPointsOfDamage: (pointsOfDamage: number) => void;
 };
 
 const useMonsterStore = create<MonsterStore>((set) => ({
@@ -38,6 +42,10 @@ const useMonsterStore = create<MonsterStore>((set) => ({
   setAttackModal: (attackModal) => set({ attackModal }),
   soundRef: React.createRef<HTMLAudioElement>(),
   setSoundRef: (soundRef) => set({ soundRef }),
+  battleData: null,
+  setBattleData: (battleData) => set({ battleData }),
+  pointsOfDamage: 0,
+  setPointsOfDamage: (pointsOfDamage) => set({ pointsOfDamage }),
 }));
 
 export default useMonsterStore;

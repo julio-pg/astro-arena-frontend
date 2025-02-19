@@ -18,6 +18,7 @@ export default {
       },
       animation: {
         "gradient-x": "gradient-x 5s ease infinite",
+        "text-fade-up": "text-fade-up 0.5s ease-out",
       },
       keyframes: {
         "gradient-x": {
@@ -28,6 +29,16 @@ export default {
           "50%": {
             "background-size": "200% 200%",
             "background-position": "right center",
+          },
+        },
+        "text-fade-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(20px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
           },
         },
       },
