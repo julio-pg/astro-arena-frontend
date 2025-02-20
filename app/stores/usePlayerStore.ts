@@ -1,15 +1,12 @@
 import React from "react";
 import { create } from "zustand";
+import { defaultPlayer } from "~/config";
 
-type MonsterStore = {
+type PlayerStore = {
   sourceMonsters: Monster[];
   setSourceMonsters: (monsters: Monster[]) => void;
   activeMonster: Monster | null;
   setActiveMonster: (monster: Monster | null) => void;
-  opponentMonsters: Monster[];
-  setOpponentMonsters: (monsters: Monster[]) => void;
-  opponentActiveMonster: Monster | null;
-  setOpponentActiveMonster: (monster: Monster | null) => void;
   eliminatedMonsters: Monster[];
   setEliminatedMonsters: (monsters: Monster[]) => void;
   isDamaged: boolean;
@@ -22,20 +19,15 @@ type MonsterStore = {
   setBattleData: (battleData: Battle | null) => void;
   pointsOfDamage: number;
   setPointsOfDamage: (pointsOfDamage: number) => void;
-  OpponentPointsOfDamage: number;
-  setOpponentPointsOfDamage: (OpponentPointsOfDamage: number) => void;
+  currentTurn: string;
+  setCurrentTurn: (currentTurn: string) => void;
 };
 
-const useMonsterStore = create<MonsterStore>((set) => ({
+const usePlayerStore = create<PlayerStore>((set) => ({
   sourceMonsters: [],
   setSourceMonsters: (monsters) => set({ sourceMonsters: monsters }),
   activeMonster: null,
   setActiveMonster: (monster) => set({ activeMonster: monster }),
-  opponentMonsters: [],
-  setOpponentMonsters: (monsters) => set({ opponentMonsters: monsters }),
-  opponentActiveMonster: null,
-  setOpponentActiveMonster: (monster) =>
-    set({ opponentActiveMonster: monster }),
   eliminatedMonsters: [],
   setEliminatedMonsters: (monsters) => set({ eliminatedMonsters: monsters }),
   isDamaged: false,
@@ -48,9 +40,8 @@ const useMonsterStore = create<MonsterStore>((set) => ({
   setBattleData: (battleData) => set({ battleData }),
   pointsOfDamage: 0,
   setPointsOfDamage: (pointsOfDamage) => set({ pointsOfDamage }),
-  OpponentPointsOfDamage: 0,
-  setOpponentPointsOfDamage: (OpponentPointsOfDamage) =>
-    set({ OpponentPointsOfDamage }),
+  currentTurn: defaultPlayer,
+  setCurrentTurn: (currentTurn) => set({ currentTurn }),
 }));
 
-export default useMonsterStore;
+export default usePlayerStore;

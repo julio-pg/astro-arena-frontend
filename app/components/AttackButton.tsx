@@ -1,22 +1,14 @@
 import { defaultPlayer } from "~/config";
 import { handleAttack } from "~/services/battles";
-import useMonsterStore from "~/stores/useMonsterStore";
+import useOpponentStore from "~/stores/useOpponentStore";
+import usePlayerStore from "~/stores/usePlayerStore";
 
 // TODO:fix the use of the use-sound library so then I can add sound effects to the game
 export default function AttackButton() {
   // 2. Initialize the hook with the audio ref
-  const {
-    setIsDamaged,
-    setAttackModal,
-    soundRef,
-    battleData,
-    activeMonster,
-    opponentActiveMonster,
-  } = useMonsterStore();
+  const { setAttackModal, battleData, activeMonster } = usePlayerStore();
+  const { opponentActiveMonster } = useOpponentStore();
   const handleDamage = () => {
-    setIsDamaged(true);
-    soundRef.current?.play();
-    setTimeout(() => setIsDamaged(false), 2000); // Reset after animation
     setAttackModal(false);
     handleAttack(
       battleData!.id,

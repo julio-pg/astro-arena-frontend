@@ -1,8 +1,8 @@
-import useMonsterStore from "~/stores/useMonsterStore";
+import usePlayerStore from "~/stores/usePlayerStore";
 import AttackButton from "./AttackButton";
 
 export default function CardModal() {
-  const { activeMonster } = useMonsterStore();
+  const { activeMonster } = usePlayerStore();
 
   return (
     <dialog className="scene z-50 bg-transparent mr-44 mt-16">

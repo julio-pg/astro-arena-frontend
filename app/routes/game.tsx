@@ -4,8 +4,9 @@ import CardModal from "~/components/CardModal";
 import CardsContainer from "~/components/CardsContainer";
 import Coin from "~/components/Coin";
 import { defaultPlayer } from "~/config";
-import { socket } from "~/services/battles";
-import useMonsterStore from "~/stores/useMonsterStore";
+import { handlePcActiveMonster, socket } from "~/services/battles";
+import useOpponentStore from "~/stores/useOpponentStore";
+import usePlayerStore from "~/stores/usePlayerStore";
 
 export const meta: MetaFunction = () => {
   return [
@@ -90,21 +91,31 @@ export const meta: MetaFunction = () => {
 // }
 export default function Game() {
   const [playerMessage, setPlayerMessage] = useState("");
+  const [OpponentMessage, setOpponentMessage] = useState("");
   // const [animate, setAnimate] = useState(false);
   const {
     setSourceMonsters,
     attackModal,
     setSoundRef,
-    setOpponentMonsters,
     sourceMonsters,
-    opponentMonsters,
     setBattleData,
+    setIsDamaged,
+    soundRef,
+    setPointsOfDamage,
+    battleData,
+    currentTurn,
+    setCurrentTurn,
+    pointsOfDamage,
+  } = usePlayerStore();
+  const {
+    setOpponentMonsters,
+    opponentMonsters,
     setOpponentActiveMonster,
-    // pointsOfDamage,
-    // setPointsOfDamage,
     OpponentPointsOfDamage,
     setOpponentPointsOfDamage,
-  } = useMonsterStore();
+    setOpponentIsDamaged,
+    opponentActiveMonster,
+  } = useOpponentStore();
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -138,33 +149,53 @@ export default function Game() {
       socket.off("battleStarted");
       socket.off("battleUpdate");
       socket.off("monsterActivated");
-      socket.off("pcActive");
     };
   }, []);
+  useEffect(() => {
+    if (!opponentActiveMonster && currentTurn !== defaultPlayer) {
+      handlePcActiveMonster(battleData!.id, opponentMonsters);
+    }
+  }, [opponentActiveMonster, currentTurn]);
   // listen when the players select or change the active monster
+  socket.on("monsterActivated", ({ message, nextTurn }: activeMonsterEvent) => {
+    // setAnimate(true); // Trigger animation
+    setPlayerMessage(message);
+    // setAnimate(false);
+    setCurrentTurn(nextTurn);
+  });
+
+  // listen the player battle updates
+  socket.on("battleUpdate", ({ damage, message }: attackMonsterEvent) => {
+    setOpponentIsDamaged(true);
+    soundRef.current?.play();
+    setTimeout(() => setOpponentIsDamaged(false), 2000); // Reset after animation
+    setOpponentPointsOfDamage(OpponentPointsOfDamage + damage);
+    setPlayerMessage(message);
+  });
+
+  // listen the pc battle updates
+  socket.on("pcUpdate", ({ damage, message }: attackMonsterEvent) => {
+    setIsDamaged(true);
+    soundRef.current?.play();
+    setTimeout(() => setIsDamaged(false), 2000); // Reset after animation
+    setPointsOfDamage(pointsOfDamage + damage);
+    setOpponentMessage(message);
+  });
   socket.on(
-    "monsterActivated",
-    ({ currentTurn, message, monsterId }: activeMonsterEvent) => {
-      // setAnimate(true); // Trigger animation
-      setTimeout(() => {
-        setPlayerMessage(message);
-        // setAnimate(false);
-      }, 2000);
-      if (currentTurn !== defaultPlayer) {
-        setOpponentActiveMonster(
-          opponentMonsters.find((m) => m.id === monsterId)!
-        );
-        const availableMonsters = opponentMonsters.filter(
-          (m) => m.id !== monsterId
-        );
-        setOpponentMonsters(availableMonsters);
-      }
+    "pcMonsterActivated",
+    ({ message, monsterId, nextTurn }: activeMonsterEvent) => {
+      setOpponentMessage(message);
+      setOpponentActiveMonster(
+        opponentMonsters.find((m) => m.id === monsterId)!
+      );
+      const availableMonsters = opponentMonsters.filter(
+        (m) => m.id !== monsterId
+      );
+      setOpponentMonsters(availableMonsters);
+      setCurrentTurn(nextTurn);
     }
   );
-  // listen the battle updates
-  socket.on("battleUpdate", (data: { damage: number; to: string }) => {
-    setOpponentPointsOfDamage(OpponentPointsOfDamage + data.damage);
-  });
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 p-4 relative grid grid-rows-2">
       <audio ref={audioRef} src="/sounds/FireAttackEffect.mp3">
@@ -180,8 +211,11 @@ export default function Game() {
       {/* Player's Side */}
       <CardsContainer isOpponent={false} Monsters={sourceMonsters} />
       <p
-        className={`absolute left-10 top-1/2 -translate-y-1/2 text-2xl font-bold`}
+        className={`absolute left-10 top-[40%] -translate-y-1/2 text-2xl font-bold`}
       >
+        {OpponentMessage}
+      </p>
+      <p className={`absolute left-10 bottom-[40%] text-2xl font-bold`}>
         {playerMessage}
       </p>
 

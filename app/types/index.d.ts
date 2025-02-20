@@ -26,8 +26,13 @@ interface Battle {
   winner: string;
 }
 interface activeMonsterEvent {
-  currentTurn: string; // ID of the player whose turn it is
   message: string;
   monsterId: string;
   nextTurn: string; // Switch back to the player's turn
+}
+
+interface attackMonsterEvent {
+  name: string;
+  damage: number;
+  message: string;
 }
