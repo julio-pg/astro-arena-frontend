@@ -1,4 +1,3 @@
-import React from "react";
 import { create } from "zustand";
 import { defaultPlayer } from "~/config";
 
@@ -13,8 +12,6 @@ type PlayerStore = {
   setIsDamaged: (isDamaged: boolean) => void;
   attackModal: boolean;
   setAttackModal: (attackModal: boolean) => void;
-  soundRef: React.RefObject<HTMLAudioElement>;
-  setSoundRef: (soundRef: React.RefObject<HTMLAudioElement>) => void;
   battleData: Battle | null;
   setBattleData: (battleData: Battle | null) => void;
   pointsOfDamage: number;
@@ -34,8 +31,6 @@ const usePlayerStore = create<PlayerStore>((set) => ({
   setIsDamaged: (isDamaged) => set({ isDamaged }),
   attackModal: false,
   setAttackModal: (attackModal) => set({ attackModal }),
-  soundRef: React.createRef<HTMLAudioElement>(),
-  setSoundRef: (soundRef) => set({ soundRef }),
   battleData: null,
   setBattleData: (battleData) => set({ battleData }),
   pointsOfDamage: 0,

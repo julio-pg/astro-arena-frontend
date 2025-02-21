@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import CardModal from "~/components/CardModal";
 import CardsContainer from "~/components/CardsContainer";
 import Coin from "~/components/Coin";
@@ -7,6 +7,7 @@ import { defaultPlayer } from "~/config";
 import { handlePcActiveMonster, socket } from "~/services/battles";
 import useOpponentStore from "~/stores/useOpponentStore";
 import usePlayerStore from "~/stores/usePlayerStore";
+import { playAudio } from "~/utils/utils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -96,11 +97,9 @@ export default function Game() {
   const {
     setSourceMonsters,
     attackModal,
-    setSoundRef,
     sourceMonsters,
     setBattleData,
     setIsDamaged,
-    soundRef,
     setPointsOfDamage,
     battleData,
     currentTurn,
@@ -116,10 +115,8 @@ export default function Game() {
     setOpponentIsDamaged,
     opponentActiveMonster,
   } = useOpponentStore();
-  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    setSoundRef(audioRef);
     socket.connect();
     socket.emit("startBattle", { playerId: defaultPlayer });
     // Listen for 'battleStarted' event
@@ -166,17 +163,16 @@ export default function Game() {
 
   // listen the player battle updates
   socket.on("battleUpdate", ({ damage, message }: attackMonsterEvent) => {
+    playAudio("/sounds/FireAttackEffect.mp3");
     setOpponentIsDamaged(true);
-    soundRef.current?.play();
     setTimeout(() => setOpponentIsDamaged(false), 2000); // Reset after animation
     setOpponentPointsOfDamage(OpponentPointsOfDamage + damage);
     setPlayerMessage(message);
   });
-
   // listen the pc battle updates
   socket.on("pcUpdate", ({ damage, message }: attackMonsterEvent) => {
+    playAudio("/sounds/FireAttackEffect.mp3");
     setIsDamaged(true);
-    soundRef.current?.play();
     setTimeout(() => setIsDamaged(false), 2000); // Reset after animation
     setPointsOfDamage(pointsOfDamage + damage);
     setOpponentMessage(message);
@@ -198,9 +194,9 @@ export default function Game() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 p-4 relative grid grid-rows-2">
-      <audio ref={audioRef} src="/sounds/FireAttackEffect.mp3">
+      {/* <audio ref={audioRef} src="/sounds/FireAttackEffect.mp3">
         <track kind="captions" srcLang="en" label="english_captions" />
-      </audio>
+      </audio> */}
       {attackModal && <CardModal />}
       {/* coin */}
       <Coin />

@@ -14,6 +14,7 @@ function Index() {
       <audio src="/sounds/FireAttackEffect.mp3">
         <track kind="captions" srcLang="en" label="english_captions" />
       </audio>
+
       <div className="min-h-[90vh] w-full mx-auto max-w-7xl lg:px-32 md:px-12 px-8 py-5 grid grid-rows-2 gap-6">
         <div className="rounded-lg border border-white flex p-6">
           <Link
