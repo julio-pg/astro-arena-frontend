@@ -49,7 +49,7 @@ body {
 }
 
 .scratch-effect {
-  animation: scratch 0.5s infinite;
+  animation: scratch 2s ease-in-out;
   @apply border-red-500;
 }
 

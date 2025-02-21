@@ -48,11 +48,10 @@ export default function CardsContainer({ isOpponent, Monsters }: Props) {
              bg-blue-500/10 backdrop-blur-sm shadow-lg transition-all hover:border-blue-400/50 flex items-center justify-center`}
           >
             <img
-              className="h-full object-cover"
-              src="/cards/back-card.png"
+              className="h-full object-cover rounded-lg"
+              src={isOpponent ? "robot-player.jpg" : "player1-profile.jpg"}
               alt="back-card"
             />
-            <p className="absolute text-6xl font-bold text-black">X6</p>
           </div>
         </div>
         <div className="col-span-8">
@@ -79,12 +78,12 @@ export default function CardsContainer({ isOpponent, Monsters }: Props) {
               alt="back-card"
             />
             {isOpponent && opponentEliminatedMonsters.length > 0 && (
-              <p className="absolute text-6xl font-bold text-black">
+              <p className="absolute text-6xl font-bold text-white">
                 X{opponentEliminatedMonsters.length}
               </p>
             )}
             {!isOpponent && eliminatedMonsters.length > 0 && (
-              <p className="absolute text-6xl font-bold text-black">
+              <p className="absolute text-6xl font-bold text-white">
                 X{eliminatedMonsters.length}
               </p>
             )}

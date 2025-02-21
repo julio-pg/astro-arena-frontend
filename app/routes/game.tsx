@@ -228,11 +228,16 @@ export default function Game() {
       {/* Player's Side */}
       <CardsContainer isOpponent={false} Monsters={sourceMonsters} />
       <p
-        className={`absolute left-10 top-[40%] -translate-y-1/2 text-2xl font-bold`}
+        className={`absolute left-32 top-[35%] -translate-y-1/2 text-2xl font-bold`}
       >
         {OpponentMessage}
       </p>
-      <p className={`absolute left-10 bottom-[40%] text-2xl font-bold`}>
+      <p
+        className={`absolute left-10 bottom-1/2 translate-y-1/2 text-6xl text-red-500 font-bold`}
+      >
+        VS
+      </p>
+      <p className={`absolute left-32 bottom-[35%] text-2xl font-bold`}>
         {playerMessage}
       </p>
 
