@@ -46,3 +46,8 @@ export async function getPlayerData(id: string) {
   const response = await AxiosInstance.get(`/astro-arena/player/${id}`);
   return response.data;
 }
+
+export async function getLastBattles() {
+  const response = await AxiosInstance.get<Battle[]>("/astro-arena/battles");
+  return response.data;
+}

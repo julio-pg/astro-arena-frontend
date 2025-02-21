@@ -9,6 +9,7 @@ body {
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
+  font-family: "Permanent Marker", serif;
 }
 
 @keyframes flip {
@@ -78,4 +79,11 @@ body {
   transform: rotateX(5deg) rotateY(-5deg) scale(1.05); /* Adjust values */
   /* Add more prominent shadow on hover */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.textured-background {
+  background-color: #e5e5f7;
+  opacity: 0.8;
+  background-image: url("/astro-bg.jpg");
+  background-size: contain;
 }

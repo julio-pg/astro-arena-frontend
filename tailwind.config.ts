@@ -19,6 +19,8 @@ export default {
       animation: {
         "gradient-x": "gradient-x 5s ease infinite",
         "text-fade-up": "text-fade-up 0.5s ease-out",
+        "intro-fade-up": "intro-fade-up 1s ease-out",
+        "intro-fade-down": "intro-fade-down 1s ease-out",
       },
       keyframes: {
         "gradient-x": {
@@ -35,6 +37,26 @@ export default {
           "0%": {
             opacity: "0",
             transform: "translateY(20px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        "intro-fade-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(50%)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        "intro-fade-down": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(-50%)",
           },
           "100%": {
             opacity: "1",
