@@ -32,7 +32,9 @@ export function handleAttack(
     defenderMonsterId,
   });
 }
-
+export function handleEndBattle(battleId: string, winnerId: string) {
+  socket.emit("endBattle", { battleId, winnerId });
+}
 export function handlePcActiveMonster(
   battleId: string,
   availableMonsters: Monster[]

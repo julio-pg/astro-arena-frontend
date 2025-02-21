@@ -1,10 +1,15 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useEffect, useState } from "react";
+import BattleEndedModal from "~/components/BattleEndedModal";
 import CardModal from "~/components/CardModal";
 import CardsContainer from "~/components/CardsContainer";
 import Coin from "~/components/Coin";
 import { defaultPlayer } from "~/config";
-import { handlePcActiveMonster, socket } from "~/services/battles";
+import {
+  handleEndBattle,
+  handlePcActiveMonster,
+  socket,
+} from "~/services/battles";
 import useOpponentStore from "~/stores/useOpponentStore";
 import usePlayerStore from "~/stores/usePlayerStore";
 import { playAudio } from "~/utils/utils";
@@ -93,6 +98,7 @@ export const meta: MetaFunction = () => {
 export default function Game() {
   const [playerMessage, setPlayerMessage] = useState("");
   const [OpponentMessage, setOpponentMessage] = useState("");
+  const [battleEnded, setBattleEnded] = useState({ ended: false, winner: "" });
   // const [animate, setAnimate] = useState(false);
   const {
     setSourceMonsters,
@@ -153,6 +159,18 @@ export default function Game() {
       handlePcActiveMonster(battleData!.id, opponentMonsters);
     }
   }, [opponentActiveMonster, currentTurn]);
+  useEffect(() => {
+    if (battleData) {
+      if (opponentMonsters.length === 0) {
+        handleEndBattle(battleData.id, defaultPlayer);
+      } else if (sourceMonsters.length === 0) {
+        const pcWinner = battleData.participants.find(
+          (p) => p.id !== defaultPlayer
+        );
+        handleEndBattle(battleData.id, pcWinner!.id);
+      }
+    }
+  }, [sourceMonsters, opponentMonsters]);
   // listen when the players select or change the active monster
   socket.on("monsterActivated", ({ message, nextTurn }: activeMonsterEvent) => {
     // setAnimate(true); // Trigger animation
@@ -191,6 +209,9 @@ export default function Game() {
       setCurrentTurn(nextTurn);
     }
   );
+  socket.on("battleEnded", (data) => {
+    setBattleEnded({ ended: true, winner: data.winner });
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 p-4 relative grid grid-rows-2">
@@ -221,6 +242,7 @@ export default function Game() {
           <div className="w-96 h-96 border-[16px] rounded-full border-blue-400/30 transform -rotate-45" />
         </div>
       </div>
+      {battleEnded.ended && <BattleEndedModal winner={battleEnded.winner} />}
     </div>
   );
 }

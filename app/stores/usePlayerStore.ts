@@ -18,6 +18,7 @@ type PlayerStore = {
   setPointsOfDamage: (pointsOfDamage: number) => void;
   currentTurn: string;
   setCurrentTurn: (currentTurn: string) => void;
+  resetPlayerState: () => void;
 };
 
 const usePlayerStore = create<PlayerStore>((set) => ({
@@ -37,6 +38,17 @@ const usePlayerStore = create<PlayerStore>((set) => ({
   setPointsOfDamage: (pointsOfDamage) => set({ pointsOfDamage }),
   currentTurn: defaultPlayer,
   setCurrentTurn: (currentTurn) => set({ currentTurn }),
+  resetPlayerState: () =>
+    set({
+      sourceMonsters: [],
+      activeMonster: null,
+      eliminatedMonsters: [],
+      isDamaged: false,
+      attackModal: false,
+      pointsOfDamage: 0,
+      battleData: null,
+      currentTurn: defaultPlayer,
+    }),
 }));
 
 export default usePlayerStore;

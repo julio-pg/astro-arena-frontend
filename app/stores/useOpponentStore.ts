@@ -11,6 +11,7 @@ type OpponentStore = {
   setOpponentIsDamaged: (isDamaged: boolean) => void;
   OpponentPointsOfDamage: number;
   setOpponentPointsOfDamage: (OpponentPointsOfDamage: number) => void;
+  resetOpponentState: () => void;
 };
 
 const useOpponentStore = create<OpponentStore>((set) => ({
@@ -27,6 +28,15 @@ const useOpponentStore = create<OpponentStore>((set) => ({
   OpponentPointsOfDamage: 0,
   setOpponentPointsOfDamage: (OpponentPointsOfDamage) =>
     set({ OpponentPointsOfDamage }),
+  resetOpponentState() {
+    set({
+      opponentMonsters: [],
+      opponentActiveMonster: null,
+      opponentEliminatedMonsters: [],
+      opponentIsDamaged: false,
+      OpponentPointsOfDamage: 0,
+    });
+  },
 }));
 
 export default useOpponentStore;
