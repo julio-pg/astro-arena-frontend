@@ -41,6 +41,9 @@ export function handlePcActiveMonster(
 ) {
   socket.emit("pcMonster", { battleId, availableMonsters });
 }
+export function handlePcAttack(battleId: string, pcMonsterId: string) {
+  socket.emit("pcAttack", { battleId, pcMonsterId });
+}
 // Get player data
 export async function getPlayerData(id: string) {
   const response = await AxiosInstance.get(`/astro-arena/player/${id}`);

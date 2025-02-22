@@ -11,10 +11,11 @@ type OpponentStore = {
   setOpponentIsDamaged: (isDamaged: boolean) => void;
   OpponentPointsOfDamage: number;
   setOpponentPointsOfDamage: (OpponentPointsOfDamage: number) => void;
+  resetOpponentDamage: () => void;
   resetOpponentState: () => void;
 };
 
-const useOpponentStore = create<OpponentStore>((set) => ({
+const useOpponentStore = create<OpponentStore>((set, get) => ({
   opponentMonsters: [],
   setOpponentMonsters: (monsters) => set({ opponentMonsters: monsters }),
   opponentActiveMonster: null,
@@ -26,8 +27,13 @@ const useOpponentStore = create<OpponentStore>((set) => ({
   opponentIsDamaged: false,
   setOpponentIsDamaged: (opponentIsDamaged) => set({ opponentIsDamaged }),
   OpponentPointsOfDamage: 0,
-  setOpponentPointsOfDamage: (OpponentPointsOfDamage) =>
-    set({ OpponentPointsOfDamage }),
+  setOpponentPointsOfDamage: (damage) => {
+    // Use `get()` to access the latest state
+    const currentPoints = get().OpponentPointsOfDamage;
+    set({ OpponentPointsOfDamage: currentPoints + damage });
+  },
+  resetOpponentDamage: () => set({ OpponentPointsOfDamage: 0 }),
+
   resetOpponentState() {
     set({
       opponentMonsters: [],

@@ -8,6 +8,7 @@ import { defaultPlayer } from "~/config";
 import {
   handleEndBattle,
   handlePcActiveMonster,
+  handlePcAttack,
   socket,
 } from "~/services/battles";
 import useOpponentStore from "~/stores/useOpponentStore";
@@ -110,13 +111,12 @@ export default function Game() {
     battleData,
     currentTurn,
     setCurrentTurn,
-    pointsOfDamage,
+    activeMonster,
   } = usePlayerStore();
   const {
     setOpponentMonsters,
     opponentMonsters,
     setOpponentActiveMonster,
-    OpponentPointsOfDamage,
     setOpponentPointsOfDamage,
     setOpponentIsDamaged,
     opponentActiveMonster,
@@ -135,10 +135,48 @@ export default function Game() {
       setSourceMonsters(localPlayer!.monsters);
       setOpponentMonsters(pcPlayer!.monsters);
     });
+    // listen when the players select or change the active monster
+    socket.on(
+      "monsterActivated",
+      ({ message, nextTurn }: activeMonsterEvent) => {
+        // setAnimate(true); // Trigger animation
+        setPlayerMessage(message);
+        // setAnimate(false);
+        setCurrentTurn(nextTurn);
+      }
+    );
 
-    // Listen for 'battleEnded' event
+    // listen the player battle updates
+    socket.on(
+      "battleUpdate",
+      ({ damage, message, nextTurn }: attackMonsterEvent) => {
+        playAudio("/sounds/FireAttackEffect.mp3");
+        setOpponentIsDamaged(true);
+        setOpponentPointsOfDamage(damage);
+        setPlayerMessage(message);
+        setTimeout(() => {
+          setOpponentIsDamaged(false);
+          setCurrentTurn(nextTurn);
+        }, 2000); // Reset after animation
+      }
+    );
+    // listen the pc battle updates
+    socket.on(
+      "pcUpdate",
+      ({ damage, message, nextTurn }: attackMonsterEvent) => {
+        playAudio("/sounds/FireAttackEffect.mp3");
+        setIsDamaged(true);
+        setPointsOfDamage(damage);
+        setOpponentMessage(message);
+        setTimeout(() => {
+          setIsDamaged(false);
+          setCurrentTurn(nextTurn);
+        }, 2000); // Reset after animation
+      }
+    );
+
     socket.on("battleEnded", (data) => {
-      console.log("Battle ended:", data);
+      setBattleEnded({ ended: true, winner: data.winner });
     });
 
     // Listen for errors
@@ -152,18 +190,28 @@ export default function Game() {
       socket.off("battleStarted");
       socket.off("battleUpdate");
       socket.off("monsterActivated");
+      socket.off("pcUpdate");
+      socket.off("pcMonsterActivated");
+      socket.off("error");
     };
   }, []);
   useEffect(() => {
     if (!opponentActiveMonster && currentTurn !== defaultPlayer) {
       handlePcActiveMonster(battleData!.id, opponentMonsters);
     }
+    if (
+      opponentActiveMonster &&
+      activeMonster &&
+      currentTurn !== defaultPlayer
+    ) {
+      handlePcAttack(battleData!.id, opponentActiveMonster.id);
+    }
   }, [opponentActiveMonster, currentTurn]);
   useEffect(() => {
     if (battleData) {
-      if (opponentMonsters.length === 0) {
+      if (opponentMonsters.length === 0 && !opponentActiveMonster) {
         handleEndBattle(battleData.id, defaultPlayer);
-      } else if (sourceMonsters.length === 0) {
+      } else if (sourceMonsters.length === 0 && !activeMonster) {
         const pcWinner = battleData.participants.find(
           (p) => p.id !== defaultPlayer
         );
@@ -171,30 +219,6 @@ export default function Game() {
       }
     }
   }, [sourceMonsters, opponentMonsters]);
-  // listen when the players select or change the active monster
-  socket.on("monsterActivated", ({ message, nextTurn }: activeMonsterEvent) => {
-    // setAnimate(true); // Trigger animation
-    setPlayerMessage(message);
-    // setAnimate(false);
-    setCurrentTurn(nextTurn);
-  });
-
-  // listen the player battle updates
-  socket.on("battleUpdate", ({ damage, message }: attackMonsterEvent) => {
-    playAudio("/sounds/FireAttackEffect.mp3");
-    setOpponentIsDamaged(true);
-    setTimeout(() => setOpponentIsDamaged(false), 2000); // Reset after animation
-    setOpponentPointsOfDamage(OpponentPointsOfDamage + damage);
-    setPlayerMessage(message);
-  });
-  // listen the pc battle updates
-  socket.on("pcUpdate", ({ damage, message }: attackMonsterEvent) => {
-    playAudio("/sounds/FireAttackEffect.mp3");
-    setIsDamaged(true);
-    setTimeout(() => setIsDamaged(false), 2000); // Reset after animation
-    setPointsOfDamage(pointsOfDamage + damage);
-    setOpponentMessage(message);
-  });
   socket.on(
     "pcMonsterActivated",
     ({ message, monsterId, nextTurn }: activeMonsterEvent) => {
@@ -209,10 +233,6 @@ export default function Game() {
       setCurrentTurn(nextTurn);
     }
   );
-  socket.on("battleEnded", (data) => {
-    setBattleEnded({ ended: true, winner: data.winner });
-  });
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 p-4 relative grid grid-rows-2">
       {/* <audio ref={audioRef} src="/sounds/FireAttackEffect.mp3">
@@ -233,7 +253,7 @@ export default function Game() {
         {OpponentMessage}
       </p>
       <p
-        className={`absolute left-10 bottom-1/2 translate-y-1/2 text-6xl text-red-500 font-bold`}
+        className={`absolute left-10 bottom-1/2 translate-y-1/2 text-6xl text-red-500 font-bold `}
       >
         VS
       </p>

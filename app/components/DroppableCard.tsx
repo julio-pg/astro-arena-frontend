@@ -1,5 +1,6 @@
 import { useDroppable } from "@dnd-kit/core";
 import { useEffect } from "react";
+import { defaultPlayer } from "~/config";
 import useOpponentStore from "~/stores/useOpponentStore";
 import usePlayerStore from "~/stores/usePlayerStore";
 type Props = {
@@ -20,7 +21,8 @@ export default function DroppableCard({ isOpponent }: Props) {
     setEliminatedMonsters,
     eliminatedMonsters,
     setActiveMonster,
-    setPointsOfDamage,
+    resetDamage,
+    currentTurn,
   } = usePlayerStore();
   const {
     setOpponentActiveMonster,
@@ -29,11 +31,13 @@ export default function DroppableCard({ isOpponent }: Props) {
     setOpponentEliminatedMonsters,
     opponentEliminatedMonsters,
     opponentIsDamaged,
-    setOpponentPointsOfDamage,
+    resetOpponentDamage,
   } = useOpponentStore();
   // attack logic
   function handleAttack() {
-    setAttackModal(true);
+    if (currentTurn == defaultPlayer) {
+      setAttackModal(true);
+    }
   }
   useEffect(() => {
     if (!opponentActiveMonster) {
@@ -45,7 +49,7 @@ export default function DroppableCard({ isOpponent }: Props) {
         opponentActiveMonster!,
       ]);
       setOpponentActiveMonster(null);
-      setOpponentPointsOfDamage(0);
+      resetOpponentDamage();
     }
   }, [OpponentPointsOfDamage]);
 
@@ -56,7 +60,7 @@ export default function DroppableCard({ isOpponent }: Props) {
     if (activeMonster?.healthPoints <= pointsOfDamage) {
       setEliminatedMonsters([...eliminatedMonsters, activeMonster!]);
       setActiveMonster(null);
-      setPointsOfDamage(0);
+      resetDamage();
     }
   }, [pointsOfDamage]);
   return (

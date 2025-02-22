@@ -35,4 +35,5 @@ interface attackMonsterEvent {
   name: string;
   damage: number;
   message: string;
+  nextTurn: string; // Switch back to the player's turn
 }
