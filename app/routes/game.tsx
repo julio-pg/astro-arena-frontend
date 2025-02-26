@@ -197,7 +197,7 @@ export default function Game() {
   }, []);
   useEffect(() => {
     if (!opponentActiveMonster && currentTurn !== defaultPlayer) {
-      handlePcActiveMonster(battleData!.id, opponentMonsters);
+      handlePcActiveMonster(battleData!.id, activeMonster!, opponentMonsters);
     }
     if (
       opponentActiveMonster &&
@@ -218,7 +218,7 @@ export default function Game() {
         handleEndBattle(battleData.id, pcWinner!.id);
       }
     }
-  }, [sourceMonsters, opponentMonsters]);
+  }, [sourceMonsters, opponentMonsters, activeMonster, opponentActiveMonster]);
   socket.on(
     "pcMonsterActivated",
     ({ message, monsterId, nextTurn }: activeMonsterEvent) => {

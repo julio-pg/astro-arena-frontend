@@ -37,9 +37,10 @@ export function handleEndBattle(battleId: string, winnerId: string) {
 }
 export function handlePcActiveMonster(
   battleId: string,
+  playerMonster: Monster,
   availableMonsters: Monster[]
 ) {
-  socket.emit("pcMonster", { battleId, availableMonsters });
+  socket.emit("pcMonster", { battleId, playerMonster, availableMonsters });
 }
 export function handlePcAttack(battleId: string, pcMonsterId: string) {
   socket.emit("pcAttack", { battleId, pcMonsterId });
@@ -51,6 +52,10 @@ export async function getPlayerData(id: string) {
 }
 
 export async function getLastBattles() {
-  const response = await AxiosInstance.get<Battle[]>("/astro-arena/battles");
-  return response.data;
+  try {
+    const response = await AxiosInstance.get<Battle[]>("/astro-arena/battles");
+    return response.data;
+  } catch (error) {
+    return [];
+  }
 }
