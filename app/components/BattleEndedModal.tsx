@@ -10,7 +10,7 @@ export default function BattleEndedModal({ winner }: { winner: string }) {
     resetPlayerState();
   };
   return (
-    <dialog className="w-full h-full  z-50 bg-transparent grid place-items-center bg-indigo-900 bg-opacity-75 text-4xl">
+    <dialog className="w-full h-full  z-50 bg-transparent grid place-items-center bg-indigo-500 bg-opacity-75 text-4xl">
       <div className="rounded-lg border border-white p-6 flex flex-col justify-center items-center gap-3">
         <h1>Battle Ended</h1>
         <h2>Winner: {winner}</h2>

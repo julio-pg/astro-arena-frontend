@@ -1,5 +1,6 @@
 import { useDroppable } from "@dnd-kit/core";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 import { defaultPlayer } from "~/config";
 import useOpponentStore from "~/stores/useOpponentStore";
 import usePlayerStore from "~/stores/usePlayerStore";
@@ -44,6 +45,7 @@ export default function DroppableCard({ isOpponent }: Props) {
       return;
     }
     if (opponentActiveMonster?.healthPoints <= OpponentPointsOfDamage) {
+      toast(`${opponentActiveMonster.name} was eliminated`);
       setOpponentEliminatedMonsters([
         ...opponentEliminatedMonsters,
         opponentActiveMonster!,
@@ -58,6 +60,9 @@ export default function DroppableCard({ isOpponent }: Props) {
       return;
     }
     if (activeMonster?.healthPoints <= pointsOfDamage) {
+      toast(`${activeMonster.name} was eliminated`, {
+        position: "bottom-center",
+      });
       setEliminatedMonsters([...eliminatedMonsters, activeMonster!]);
       setActiveMonster(null);
       resetDamage();

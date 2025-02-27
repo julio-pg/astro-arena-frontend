@@ -21,9 +21,11 @@ interface Player {
 interface Battle {
   id: string;
   participants: Player[];
+  currentTurn: string;
   status: "active" | "completed";
   winner: string;
   createdAt: string;
+  message: string;
 }
 interface activeMonsterEvent {
   message: string;

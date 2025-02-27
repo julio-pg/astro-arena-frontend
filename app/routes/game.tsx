@@ -1,5 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import BattleEndedModal from "~/components/BattleEndedModal";
 import CardModal from "~/components/CardModal";
 import CardsContainer from "~/components/CardsContainer";
@@ -97,8 +98,6 @@ export const meta: MetaFunction = () => {
 //   return testMonsters;
 // }
 export default function Game() {
-  const [playerMessage, setPlayerMessage] = useState("");
-  const [OpponentMessage, setOpponentMessage] = useState("");
   const [battleEnded, setBattleEnded] = useState({ ended: false, winner: "" });
   // const [animate, setAnimate] = useState(false);
   const {
@@ -134,13 +133,17 @@ export default function Game() {
       const pcPlayer = data.participants.find(({ id }) => id !== defaultPlayer);
       setSourceMonsters(localPlayer!.monsters);
       setOpponentMonsters(pcPlayer!.monsters);
+      setCurrentTurn(data.currentTurn);
+      toast(data.message);
     });
     // listen when the players select or change the active monster
     socket.on(
       "monsterActivated",
       ({ message, nextTurn }: activeMonsterEvent) => {
         // setAnimate(true); // Trigger animation
-        setPlayerMessage(message);
+        toast(message, {
+          position: "bottom-center",
+        });
         // setAnimate(false);
         setCurrentTurn(nextTurn);
       }
@@ -153,7 +156,9 @@ export default function Game() {
         playAudio("/sounds/FireAttackEffect.mp3");
         setOpponentIsDamaged(true);
         setOpponentPointsOfDamage(damage);
-        setPlayerMessage(message);
+        toast(message, {
+          position: "bottom-center",
+        });
         setTimeout(() => {
           setOpponentIsDamaged(false);
           setCurrentTurn(nextTurn);
@@ -167,7 +172,7 @@ export default function Game() {
         playAudio("/sounds/FireAttackEffect.mp3");
         setIsDamaged(true);
         setPointsOfDamage(damage);
-        setOpponentMessage(message);
+        toast(message);
         setTimeout(() => {
           setIsDamaged(false);
           setCurrentTurn(nextTurn);
@@ -222,7 +227,7 @@ export default function Game() {
   socket.on(
     "pcMonsterActivated",
     ({ message, monsterId, nextTurn }: activeMonsterEvent) => {
-      setOpponentMessage(message);
+      toast(message);
       setOpponentActiveMonster(
         opponentMonsters.find((m) => m.id === monsterId)!
       );
@@ -247,18 +252,11 @@ export default function Game() {
 
       {/* Player's Side */}
       <CardsContainer isOpponent={false} Monsters={sourceMonsters} />
-      <p
-        className={`absolute left-32 top-[35%] -translate-y-1/2 text-2xl font-bold`}
-      >
-        {OpponentMessage}
-      </p>
+
       <p
         className={`absolute left-10 bottom-1/2 translate-y-1/2 text-6xl text-red-500 font-bold `}
       >
         VS
-      </p>
-      <p className={`absolute left-32 bottom-[35%] text-2xl font-bold`}>
-        {playerMessage}
       </p>
 
       {/* Pokémon Logo Watermark */}
