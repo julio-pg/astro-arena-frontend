@@ -5,14 +5,10 @@ export default function CardModal() {
   const { activeMonster } = usePlayerStore();
 
   return (
-    <dialog className="scene z-50 bg-transparent mr-44 mt-16">
+    <dialog className="scene w-full h-96 flex justify-end items-center pr-48 z-50 bg-transparent pt-56">
       <div className="card-container rounded-lg ">
         <div className="card rounded-lg shadow-lg">
-          <img
-            src={activeMonster?.image}
-            alt="Active-card"
-            className="w-full"
-          />
+          <img src={activeMonster?.image} alt="Active-card" className="w-64" />
           <AttackButton />
         </div>
       </div>

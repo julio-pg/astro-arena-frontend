@@ -26,7 +26,7 @@ function Home() {
             Start Game
           </Link>
         </div>
-        <div className="rounded-lg p-6 row-span-2 animate-intro-fade-up  bg-indigo-900 bg-opacity-50 backdrop-blur-sm shadow-lg  max-sm:overflow-x-scroll">
+        <div className="rounded-lg p-6 row-span-2 animate-intro-fade-up  bg-indigo-900/50  backdrop-blur-sm shadow-lg  max-sm:overflow-x-scroll">
           <div className="text-4xl font-bold">Battles Historial</div>
           <div className="flex flex-col gap-4 min-w-[30rem]">
             <div className="flex font-bold text-lg border-b border-white py-3">

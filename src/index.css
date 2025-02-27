@@ -8,7 +8,54 @@
   }
   font-family: "Permanent Marker", serif;
 }
+@theme {
+  --animate-gradient-x: gradient-x 5s ease infinite;
+  @keyframes gradient-x {
+    0%,
+    100% {
+      background-size: 200% 200%;
+      background-position: left center;
+    }
+    50% {
+      background-size: 200% 200%;
+      background-position: right center;
+    }
+  }
+  --animate-text-fade-up: text-fade-up 0.5s ease-out;
 
+  @keyframes text-fade-up {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  --animate-intro-fade-up: intro-fade-up 1s ease-out;
+  @keyframes intro-fade-up {
+    0% {
+      opacity: 0;
+      transform: translateY(50%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  --animate-intro-fade-down: intro-fade-down 1s ease-out;
+  @keyframes intro-fade-down {
+    0% {
+      opacity: 0;
+      transform: translateY(-50%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
 @keyframes flip {
   0% {
     transform: rotateY(0deg);
@@ -52,17 +99,12 @@
 
 /* Apply these styles in your CSS file or <style> tag */
 .scene {
-  width: 300px; /* Adjust as needed */
-  height: 400px; /* Adjust as needed */
-  perspective: 700px; /* Adjust perspective distance */
-  display: flex;
-  justify-content: center; /* Center the card horizontally */
-  align-items: end; /* Center the card vertically */
+  perspective: 900px; /* Adjust perspective distance */
 }
 
 .card-container {
   transform-style: preserve-3d; /* Important for 3D transforms */
-  transform: rotateX(15deg) rotateY(-10deg); /* Adjust angles */
+  transform: rotateX(-5deg) rotateY(-20deg); /* Adjust angles */
   /* Add skew for more effect (optional) */
   /* transform: rotateX(15deg) rotateY(-10deg) skewX(-5deg);  */
 }
