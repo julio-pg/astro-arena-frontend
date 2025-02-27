@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { defaultPlayer } from "~/config";
+import { defaultPlayer } from "@/config";
 
 type PlayerStore = {
   sourceMonsters: Monster[];

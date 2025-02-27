@@ -1,7 +1,7 @@
-import { defaultPlayer } from "~/config";
-import { handleAttack } from "~/services/battles";
-import useOpponentStore from "~/stores/useOpponentStore";
-import usePlayerStore from "~/stores/usePlayerStore";
+import { defaultPlayer } from "@/config";
+import { handleAttack } from "@/services/battles";
+import useOpponentStore from "@/stores/useOpponentStore";
+import usePlayerStore from "@/stores/usePlayerStore";
 
 // TODO:fix the use of the use-sound library so then I can add sound effects to the game
 export default function AttackButton() {

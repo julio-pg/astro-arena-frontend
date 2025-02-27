@@ -1,21 +1,16 @@
-import type { MetaFunction } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
-import BattleRow from "~/components/BattleRow";
-import { getLastBattles } from "~/services/battles";
+import { Link } from "react-router";
+import { useEffect, useState } from "react";
+import BattleRow from "@/components/BattleRow";
+import { getLastBattles } from "@/services/battles";
 
-export const meta: MetaFunction = () => {
-  return [
-    { title: "Astro Arena" },
-    { name: "description", content: "Astro Arena card game" },
-  ];
-};
-
-export async function loader() {
-  const lastBattles = await getLastBattles();
-  return { lastBattles };
-}
-function Index() {
-  const { lastBattles } = useLoaderData<typeof loader>();
+function Home() {
+  const [lastBattles, setLastBattles] = useState<Battle[]>([]);
+  useEffect(() => {
+    getLastBattles().then((data) => {
+      setLastBattles(data);
+    });
+    return () => {};
+  }, []);
   return (
     <div className="min-h-screen textured-background p-4 relative ">
       <audio src="/sounds/FireAttackEffect.mp3">
@@ -31,7 +26,7 @@ function Index() {
             Start Game
           </Link>
         </div>
-        <div className="rounded-lg p-6 row-span-2 animate-intro-fade-up  bg-indigo-900 bg-opacity-50 backdrop-blur-sm shadow-lg  max-sm:overflow-x-scroll">
+        <div className="rounded-lg p-6 row-span-2 animate-intro-fade-up  bg-indigo-900/50  backdrop-blur-sm shadow-lg  max-sm:overflow-x-scroll">
           <div className="text-4xl font-bold">Battles Historial</div>
           <div className="flex flex-col gap-4 min-w-[30rem]">
             <div className="flex font-bold text-lg border-b border-white py-3">
@@ -48,4 +43,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default Home;

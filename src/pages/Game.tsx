@@ -1,102 +1,20 @@
-import type { MetaFunction } from "@remix-run/node";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import BattleEndedModal from "~/components/BattleEndedModal";
-import CardModal from "~/components/CardModal";
-import CardsContainer from "~/components/CardsContainer";
-import Coin from "~/components/Coin";
-import { defaultPlayer } from "~/config";
+import BattleEndedModal from "@/components/BattleEndedModal";
+import CardModal from "@/components/CardModal";
+import CardsContainer from "@/components/CardsContainer";
+import Coin from "@/components/Coin";
+import { defaultPlayer } from "@/config";
 import {
   handleEndBattle,
   handlePcActiveMonster,
   handlePcAttack,
   socket,
-} from "~/services/battles";
-import useOpponentStore from "~/stores/useOpponentStore";
-import usePlayerStore from "~/stores/usePlayerStore";
-import { playAudio } from "~/utils/utils";
+} from "@/services/battles";
+import useOpponentStore from "@/stores/useOpponentStore";
+import usePlayerStore from "@/stores/usePlayerStore";
+import { playAudio } from "@/utils/utils";
 
-export const meta: MetaFunction = () => {
-  return [
-    { title: "Astro Arena" },
-    { name: "description", content: "Astro Arena card game" },
-  ];
-};
-// export async function loader() {
-//   const testMonsters: Monster[] = [
-//     {
-//       id: 1,
-//       name: "Cinderwing Dragon",
-//       image: "/cards/dragon.jpg",
-//       type: "fire",
-//       healthPoints: 30,
-//       abilities: [
-//         {
-//           name: "Scratch",
-//           description: "a basic scratch attack",
-//           power: 10,
-//         },
-//       ],
-//     },
-//     {
-//       id: 2,
-//       name: "Cyber-Gator",
-//       image: "/cards/alligator.jpg",
-//       type: "water",
-//       healthPoints: 30,
-//       abilities: [
-//         {
-//           name: "Scratch",
-//           description: "a basic scratch attack",
-//           power: 10,
-//         },
-//       ],
-//     },
-//     {
-//       id: 3,
-//       name: "Bramble Bear",
-//       image: "/cards/bear.jpg",
-//       type: "grass",
-//       healthPoints: 30,
-//       abilities: [
-//         {
-//           name: "Scratch",
-//           description: "a basic scratch attack",
-//           power: 10,
-//         },
-//       ],
-//     },
-//     {
-//       id: 167,
-//       name: "Cinderwing Dragon",
-//       image: "/cards/dragon.jpg",
-//       type: "fire",
-//       healthPoints: 30,
-//       abilities: [
-//         {
-//           name: "Scratch",
-//           description: "a basic scratch attack",
-//           power: 10,
-//         },
-//       ],
-//     },
-//     {
-//       id: 123,
-//       name: "Cinderwing Dragon",
-//       image: "/cards/dragon.jpg",
-//       type: "fire",
-//       healthPoints: 30,
-//       abilities: [
-//         {
-//           name: "Scratch",
-//           description: "a basic scratch attack",
-//           power: 10,
-//         },
-//       ],
-//     },
-//   ];
-//   return testMonsters;
-// }
 export default function Game() {
   const [battleEnded, setBattleEnded] = useState({ ended: false, winner: "" });
   // const [animate, setAnimate] = useState(false);

@@ -1,9 +1,9 @@
 import { useDroppable } from "@dnd-kit/core";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
-import { defaultPlayer } from "~/config";
-import useOpponentStore from "~/stores/useOpponentStore";
-import usePlayerStore from "~/stores/usePlayerStore";
+import { defaultPlayer } from "@/config";
+import useOpponentStore from "@/stores/useOpponentStore";
+import usePlayerStore from "@/stores/usePlayerStore";
 type Props = {
   isOpponent: boolean;
 };

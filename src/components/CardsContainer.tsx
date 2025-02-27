@@ -1,10 +1,10 @@
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import DraggableCard from "./DraggableCard";
 import DroppableCard from "./DroppableCard";
-import { handleActiveMonster } from "~/services/battles";
-import { defaultPlayer } from "~/config";
-import usePlayerStore from "~/stores/usePlayerStore";
-import useOpponentStore from "~/stores/useOpponentStore";
+import { handleActiveMonster } from "@/services/battles";
+import { defaultPlayer } from "@/config";
+import usePlayerStore from "@/stores/usePlayerStore";
+import useOpponentStore from "@/stores/useOpponentStore";
 
 type Props = {
   Monsters: Monster[];
@@ -34,7 +34,9 @@ export default function CardsContainer({ isOpponent, Monsters }: Props) {
   return (
     <DndContext
       onDragEnd={(e) => {
-        isOpponent ? null : handleDragEnd(e);
+        if (!isOpponent) {
+          handleDragEnd(e);
+        }
       }}
     >
       <div
