@@ -1,6 +1,7 @@
 # Astro-Arena Frontend
 
 Welcome to the **Astro-Arena Frontend** repository! This is the React-based user interface for a card game inspired by the Pokémon Trading Card Game (TCG). The frontend interacts with a backend built using NestJS via webhooks and incorporates an AI model to power the PC player's decisions. Dive into the cosmos and enjoy a strategic card-battling experience!
+This repository works in collaboration with the [astro-arena-backend](https://github.com/julio-pg/astro-arena-backend).
 
 ---
 
@@ -133,6 +134,7 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 - Inspired by the Pokémon Trading Card Game.
 - Built with React and NestJS.
 - Special thanks to the open-source community for their invaluable tools and libraries.
+- Integrated with the [Astro-Arena Frontend](https://github.com/julio-pg/astro-arena-backend).
 
 ---
 
