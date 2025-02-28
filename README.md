@@ -134,7 +134,7 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 - Inspired by the Pokémon Trading Card Game.
 - Built with React and NestJS.
 - Special thanks to the open-source community for their invaluable tools and libraries.
-- Integrated with the [Astro-Arena Frontend](https://github.com/julio-pg/astro-arena-backend).
+- Integrated with the [astro-arena-backend](https://github.com/julio-pg/astro-arena-backend).
 
 ---
 
